@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* optional dark tokens */
+:root{ --bg: 10 12 16; --fg: 242 243 247; }
+html { color-scheme: dark; }
+body { background: rgb(var(--bg)); color: rgb(var(--fg)); }
