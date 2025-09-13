@@ -1,92 +1,74 @@
+// src/sections/SeoServicesSection.tsx
+import Image from "next/image";
+import Link from "next/link";
+
 export default function SeoServicesSection() {
   const items = [
-    {
-      icon: "🛒",
-      title: "E-Commerce SEO",
-      desc:
-        "Optimize collections and product pages to grow organic traffic, improve rankings, and lift add-to-cart and revenue.",
-    },
-    {
-      icon: "📍",
-      title: "Local SEO",
-      desc:
-        "Customized local strategy: on-page fixes, citations, Google Business Profile, and review flow to win the Map Pack.",
-    },
-    {
-      icon: "🌎",
-      title: "National SEO",
-      desc:
-        "Compete across the country with research-driven content, technical fixes, and authority building at scale.",
-    },
-    {
-      icon: "🔗",
-      title: "Link Building",
-      desc:
-        "White-hat outreach and digital PR to earn credible links that signal trust and relevance to search engines.",
-    },
-    {
-      icon: "✍️",
-      title: "SEO Content Writing",
-      desc:
-        "Editorial plans, briefs, and on-brand copy that targets opportunities and upgrades existing pages for quick wins.",
-    },
-    {
-      icon: "🤖",
-      title: "Generative Engine Optimization (GEO)",
-      desc:
-        "Prepare your site for AI/Generative results with structured data, entity optimization, and answer-ready content.",
-    },
+    { icon: "🛒", title: "E-Commerce SEO", desc: "Optimize collections & PDPs to grow organic traffic and revenue." },
+    { icon: "📍", title: "Local SEO", desc: "GBP, citations, reviews & location pages to win the Map Pack." },
+    { icon: "🌎", title: "National SEO", desc: "Research-driven content, technical fixes, and authority building." },
+    { icon: "🔗", title: "Link Building", desc: "White-hat outreach and digital PR for credible, relevant links." },
+    { icon: "✍️", title: "SEO Content Writing", desc: "Editorial plans, briefs, and upgrades to existing pages." },
+    { icon: "🤖", title: "GEO (AI Search)", desc: "Schema/entity tuning & answer-ready content for generative results." },
   ];
 
   const metrics = [
-    { label: "Avg. LCP", value: "≤1.8s" },
+    { label: "Avg. LCP (mobile)", value: "≤1.8s" },
     { label: "Core Web Vitals", value: "90%+" },
-    { label: "Click-to-Lead", value: "↑" },
+    { label: "CTR lift", value: "↑" },
   ];
 
+  const tech = ["App Router", "ISR (revalidate)", "Edge caching", "next/image", "Server Actions", "TypeScript"];
+
   return (
-    <section id="advanced-seo" className="mx-auto max-w-7xl px-4 py-20">
+    <section id="advanced-seo" className="relative mx-auto max-w-7xl scroll-mt-24 px-4 py-20">
+      {/* soft nebula */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="absolute left-1/2 top-[-25%] h-[720px] w-[1100px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-600/25 via-cyan-400/15 to-amber-300/10 blur-3xl" />
+      </div>
+
       {/* Heading */}
       <div className="mx-auto max-w-3xl text-center">
         <h2 className="text-3xl font-extrabold md:text-4xl">
-          Advanced SEO Services <span className="text-indigo-400">Proven to Grow Your Business</span>
+          Advanced SEO — <span className="text-cyan-300">Powered by Next.js</span>
         </h2>
         <p className="mt-3 text-slate-300">
-          Our advanced SEO programs align with your goals and your market—no guesswork, just measurable growth.
+          We pair technical SEO with Next.js performance—so your pages <strong>load fast</strong>, rank stronger, and convert more.
         </p>
       </div>
 
-      {/* Service cards */}
+      {/* Services grid */}
       <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((it) => (
-          <div
+          <article
             key={it.title}
-            className="rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10"
+            className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:bg-white/10"
           >
             <div className="text-3xl">{it.icon}</div>
             <h3 className="mt-4 text-lg font-semibold">{it.title}</h3>
             <p className="mt-2 text-sm text-slate-300">{it.desc}</p>
-          </div>
+          </article>
         ))}
       </div>
 
-      {/* Technology / proof block */}
+      {/* Proof / Next.js panel */}
       <div className="mt-14 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-tr from-white/5 to-white/0">
         <div className="grid items-stretch gap-0 md:grid-cols-2">
+          {/* Left: copy + metrics + CTAs */}
           <div className="p-8 md:p-10">
-            <h3 className="text-2xl font-bold">Remove the Guesswork with Our Predictive SEO Engine</h3>
+            <h3 className="text-2xl font-bold">Predictive SEO + Performance Engineering</h3>
             <p className="mt-2 text-slate-300">
-              Our approach uses predictive crawling and competitive analysis to anticipate ranking shifts and prioritize the
-              highest-impact updates across technical, content, and authority.
+              We prioritize the highest-impact fixes across technical, content, and authority—then deploy with Next.js features for
+              <strong> speed</strong>, <strong>stability</strong>, and <strong>scale</strong>.
             </p>
             <ul className="mt-4 list-inside list-disc text-slate-300">
-              <li>Forecast opportunities and protect winning pages</li>
-              <li>Spot entity gaps and schema opportunities</li>
-              <li>Continuously test and iterate for compounding gains</li>
+              <li>Revalidate content with ISR instead of full rebuilds</li>
+              <li>Edge-cached pages for near-instant TTFB globally</li>
+              <li><code className="rounded bg-black/30 px-1 py-0.5">next/image</code> for responsive, optimized media</li>
             </ul>
 
-            {/* Simple metrics */}
-            <div className="mt-6 grid grid-cols-3 divide-x divide-white/10 overflow-hidden rounded-xl border border-white/10">
+            {/* Metrics */}
+            <div className="mt-6 grid grid-cols-3 overflow-hidden rounded-xl border border-white/10">
               {metrics.map((m) => (
                 <div key={m.label} className="bg-slate-900/60 p-4 text-center">
                   <div className="text-xl font-extrabold">{m.value}</div>
@@ -95,42 +77,96 @@ export default function SeoServicesSection() {
               ))}
             </div>
 
+            {/* CTAs */}
             <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href="#contact"
-                className="rounded-xl bg-indigo-500 px-5 py-2 font-semibold hover:bg-indigo-400"
+              {/* gradient ring + glow */}
+              <div className="group relative">
+                <div className="pointer-events-none absolute -inset-0.5 rounded-3xl bg-gradient-to-r from-indigo-500/30 via-cyan-400/20 to-amber-300/20 blur opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <Link
+                  href="/#contact"
+                  className="relative inline-flex items-center rounded-2xl bg-gradient-to-r from-indigo-500 via-cyan-400 to-amber-300 p-[2px]"
+                >
+                  <span className="inline-flex items-center gap-2 rounded-[14px] bg-slate-950/80 px-5 py-2.5 font-semibold text-white backdrop-blur transition-colors duration-200 group-hover:bg-transparent">
+                    Get an SEO Game Plan <span aria-hidden>↗</span>
+                  </span>
+                </Link>
+              </div>
+              <Link
+                href="/services"
+                className="inline-flex items-center rounded-2xl border border-white/15 bg-white/5 px-5 py-2.5 font-semibold text-white transition hover:bg-white/10"
               >
-                Get an SEO Game Plan
-              </a>
-              <a
-                href="#work"
-                className="rounded-xl border border-white/15 px-5 py-2 font-semibold hover:bg-white/10"
-              >
-                See Case Studies
-              </a>
+                Learn More
+              </Link>
             </div>
           </div>
 
-          {/* Image / visual side (replace with your screenshot) */}
-          <div className="relative min-h-[280px] bg-slate-900/40">
-            <img
-              src="https://images.unsplash.com/photo-1551281044-8d8e5f1fbe39?q=80&w=1600&auto=format&fit=crop"
-              alt="SEO dashboard preview"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 to-transparent" />
+          {/* Right: visual — Next.js tech & LCP pulse */}
+          <div className="relative min-h-[320px] overflow-hidden border-t border-white/10 md:border-l md:border-t-0">
+            <Image
+  src="/website-marketer-using-SEO-Dashboard.jpg"
+  alt="SEO dashboard preview with Core Web Vitals and rankings"
+  fill
+  className="object-cover"
+/>
+
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/40 to-transparent" />
+
+            {/* glass tech card */}
+            <div className="absolute bottom-4 left-4 right-4 rounded-2xl border border-white/10 bg-slate-900/60 p-4 backdrop-blur">
+              <div className="mb-2 text-sm font-semibold text-slate-100">⚙️ Next.js Superpowers</div>
+              <div className="flex flex-wrap gap-2 text-xs">
+                {tech.map((t) => (
+                  <span key={t} className="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-slate-300">
+                    {t}
+                  </span>
+                ))}
+              </div>
+
+              {/* LCP pulse bar (Tailwind animation) */}
+              <div className="mt-4">
+                <div className="text-[11px] text-slate-400">Mobile LCP target (simulated):</div>
+                <div className="mt-1 h-2 w-full overflow-hidden rounded bg-slate-800">
+                  <div className="h-full w-1/3 animate-lcpPulse bg-emerald-400/90" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Small note / CTA */}
-      <p className="mt-6 text-center text-sm text-slate-400">
-        Want the tech deep-dive?{" "}
-        <a href="#contact" className="underline decoration-slate-500 underline-offset-4 hover:text-white">
-          Learn more about our approach
-        </a>
-        .
-      </p>
+      {/* Tech ribbon (marquee using Tailwind animation) */}
+      <div className="mx-auto mt-10 max-w-7xl overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 py-3 backdrop-blur">
+        <div className="flex animate-techScroll whitespace-nowrap text-xs text-slate-300 [--gap:2rem]">
+          {[
+            "Next.js App Router",
+            "React Server Components",
+            "ISR & Edge",
+            "TypeScript",
+            "Tailwind CSS",
+            "Vercel",
+            "Analytics & Pixels",
+            "A/B Testing",
+            "Core Web Vitals",
+            "Accessibility",
+            // duplicate for seamless loop
+            "Next.js App Router",
+            "React Server Components",
+            "ISR & Edge",
+            "TypeScript",
+            "Tailwind CSS",
+            "Vercel",
+            "Analytics & Pixels",
+            "A/B Testing",
+            "Core Web Vitals",
+            "Accessibility",
+          ].map((t, i) => (
+            <span key={i} className="mx-[var(--gap)] inline-flex items-center gap-2">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-cyan-400/80" />
+              {t}
+            </span>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

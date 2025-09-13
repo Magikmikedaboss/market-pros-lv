@@ -1,9 +1,9 @@
 import Hero from "@/sections/Hero";
 import AboutSection from "@/sections/AboutSection";
+import ServicesSection from "@/sections/ServicesSection";
 import SeoServicesSection from "@/sections/SeoServicesSection";
-import TestimonialsSection from "@/sections/TestimonialsSection";
-import CaseStudySection from "@/sections/CaseStudySection";
-import PricingSection from "@/sections/PricingSection";
+import SocialProofSection from "@/sections/SocialProofSection";
+import PricingTeaser from "@/sections/PricingTeaser";   // 👈 teaser
 import ContactSection from "@/sections/ContactSection";
 
 export default function Page() {
@@ -11,10 +11,10 @@ export default function Page() {
     <main>
       <Hero />
       <AboutSection />
+      <ServicesSection />
       <SeoServicesSection />
-      <TestimonialsSection />
-      <CaseStudySection />
-      <PricingSection />
+      <SocialProofSection />
+      <PricingTeaser />                                  {/* 👈 small homepage teaser */}
       <ContactSection />
     </main>
   );
