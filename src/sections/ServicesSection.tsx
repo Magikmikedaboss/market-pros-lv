@@ -24,6 +24,7 @@ const CONTENT: Record<TabKey, { title: string; blurb: string; items: string[]; c
       "SSR/SSG/ISR for SEO & scale",
       "Headless CMS (Sanity/Contentful/WordPress headless)",
       "Accessibility & best-practice semantics",
+      "Ligthing-fast delivery on all starter sites",
     ],
     ctaHref: "/#contact",
     ctaLabel: "Start a Website Project",

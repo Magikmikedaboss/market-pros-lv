@@ -3,7 +3,7 @@ import AboutSection from "@/sections/AboutSection";
 import ServicesSection from "@/sections/ServicesSection";
 import SeoServicesSection from "@/sections/SeoServicesSection";
 import SocialProofSection from "@/sections/SocialProofSection";
-import PricingTeaser from "@/sections/PricingTeaser";   // 👈 teaser
+import PricingTeaser from "@/sections/PricingTeaser";
 import ContactSection from "@/sections/ContactSection";
 
 export default function Page() {
@@ -14,7 +14,7 @@ export default function Page() {
       <ServicesSection />
       <SeoServicesSection />
       <SocialProofSection />
-      <PricingTeaser />                                  {/* 👈 small homepage teaser */}
+      <PricingTeaser limit={4} href="/pricing" hashByTier />  {/* centered + 4 tiers + deep links */}
       <ContactSection />
     </main>
   );
