@@ -27,13 +27,15 @@ export default function Header() {
           aria-label="Go to Webcraft Lab home"
           prefetch={false}
         >
-          {/* ✅ Use the same app icon as the header logo */}
           <Image
-            src="/icon.png"       // served automatically from src/app/icon.png
-            alt="Webcraft LAB"
+         src="/icon.png"            // this is served from /public/icon.png (see note below)
+            alt=""                     // decorative; adjacent text already says "Webcraft LAB"
+            aria-hidden="true"
             width={32}
             height={32}
-            priority
+            sizes="32px"               // forces the 32px variant; no oversized 160px fetch
+            quality={50}               // UI icon looks identical at ~50
+            decoding="async"
             className="rounded-lg ring-1 ring-white/15"
           />
           <div className="text-lg font-extrabold tracking-tight">

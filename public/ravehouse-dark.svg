@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img">
+<rect width="512" height="512" fill="#000000"/>
+<g transform="translate(0,0)">
+
+    <!-- House outline -->
+    <path d="M140 280v-90l116-86 116 86v90" fill="none" stroke="#B026FF" stroke-width="16" stroke-linejoin="round"/>
+    <rect x="170" y="245" width="172" height="120" rx="8" fill="none" stroke="#B026FF" stroke-width="12"/>
+    <!-- Vinyl disc -->
+    <circle cx="256" cy="305" r="42" fill="none" stroke="#00E5FF" stroke-width="10"/>
+    <circle cx="256" cy="305" r="6" fill="#00E5FF"/>
+    <!-- Text -->
+    <text x="256" y="460" font-family="Inter, ui-sans-serif, system-ui" font-size="34" fill="#FFFFFF" text-anchor="middle" font-weight="800">Ravehouse Entertainment</text>
+    </g>
+</svg>

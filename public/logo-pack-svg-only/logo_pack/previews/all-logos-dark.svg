@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+<rect width="1200" height="900" fill="#0B0F1A"/>
+<text x="600.0" y="64" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui" font-size="28" fill="#FFFFFF" font-weight="700">Logo Preview Sheet</text>
+<rect x="80" y="80" width="240" height="240" rx="16" fill="none" stroke="#FFFFFF" opacity="0.08"/>
+<image href="./summit-dental/summit-dental-transparent.svg" x="104" y="104" width="192" height="192" />
+<text x="200" y="340" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui" font-size="18" fill="#FFFFFF">Summit Dental</text>
+<rect x="480" y="80" width="240" height="240" rx="16" fill="none" stroke="#FFFFFF" opacity="0.08"/>
+<image href="./ravehouse/ravehouse-transparent.svg" x="504" y="104" width="192" height="192" />
+<text x="600" y="340" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui" font-size="18" fill="#FFFFFF">Ravehouse</text>
+<rect x="880" y="80" width="240" height="240" rx="16" fill="none" stroke="#FFFFFF" opacity="0.08"/>
+<image href="./webcraft-lab/webcraft-lab-transparent.svg" x="904" y="104" width="192" height="192" />
+<text x="1000" y="340" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui" font-size="18" fill="#FFFFFF">Webcraft Lab</text>
+<rect x="230" y="440" width="240" height="240" rx="16" fill="none" stroke="#FFFFFF" opacity="0.08"/>
+<image href="./mikes-pro-handyman/mikes-pro-handyman-transparent.svg" x="254" y="464" width="192" height="192" />
+<text x="350" y="700" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui" font-size="18" fill="#FFFFFF">Mikes Pro Handyman</text>
+<rect x="730" y="440" width="240" height="240" rx="16" fill="none" stroke="#FFFFFF" opacity="0.08"/>
+<image href="./chelin-law/chelin-law-transparent.svg" x="754" y="464" width="192" height="192" />
+<text x="850" y="700" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui" font-size="18" fill="#FFFFFF">Chelin Law</text>
+</svg>

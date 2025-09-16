@@ -1,101 +1,109 @@
 import Image from "next/image";
 import Link from "next/link";
+import TestimonialsRail from "./TestimonialsRail.client";
 
+/* ------- data ------- */
+const LOGOS = [
+  { src: "/chelin-law-dark.svg", alt: "Chelin Law" },
+  { src: "/mikes-pro-handyman-dark.svg", alt: "PRO Handyman" },
+  { src: "/ravehouse-dark.svg", alt: "Events Co" },
+  { src: "/summit-dental-dark.svg", alt: "Summit Dental" },
+  { src: "/webcraft-lab-dark.svg", alt: "LV Retail" },
+] as const;
+
+const CASE_STUDY_SPOTLIGHT = {
+  tag: "Case Study",
+  client: "Local Service Brand",
+  goal: "Increase booked calls in 60 days",
+  steps: ["Site rebuild (Next.js)", "Local SEO tune-up", "Call tracking & analytics"],
+  metrics: [
+    { label: "Calls", value: "+72%" },
+    { label: "Organic traffic", value: "+38%" },
+    { label: "LCP", value: "1.2s" },
+  ],
+  bg: "/website-marketer-using-SEO-Dashboard.jpg",
+  href: "https://example.com", // ⬅️ replace with live site
+} as const;
+
+const CASE_STUDIES = [
+  { title: "Chelin Law", href: "https://chelinlaw.example.com", img: "/chelin-law-dark.svg", ratio: "aspect-[16/10]" },
+  { title: "Mike’s PRO Handyman", href: "https://mikesprohandyman.com", img: "/mikes-pro-handyman-dark.svg", ratio: "aspect-[16/10]" },
+  { title: "Ravehouse Entertainment", href: "https://ravehouse.example.com", img: "/ravehouse-dark.svg", ratio: "aspect-[16/10]" },
+] as const;
+
+const TESTIMONIALS = [
+  { quote: "Leads doubled in six weeks. The site is fast and our phones ring.", name: "Dana C.", role: "Owner, Chelin Law", rating: 5 },
+  { quote: "Map Pack jumped to top 3 after the rebuild.", name: "Mike S.", role: "Founder, PRO Handyman", rating: 5 },
+  { quote: "Clean funnel and clear tracking—now ROAS makes sense.", name: "J. Rivera", role: "Events Director", rating: 5 },
+] as const;
+
+/* ------- component ------- */
 export default function SocialProofSection() {
-  // Optional: swap for real logos in /public
-  const logos = [
-    { src: "/logo-chelinlaw.svg", alt: "Chelin Law" },
-    { src: "/logo-pro-handyman.svg", alt: "PRO Handyman" },
-    { src: "/logo-eventsco.svg", alt: "Events Co" },
-    { src: "/logo-summit-dental.svg", alt: "Summit Dental" },
-    { src: "/logo-lv-retail.svg", alt: "LV Retail" },
-  ];
-
-  const caseStudy = {
-    tag: "Case Study",
-    client: "Local Service Brand",
-    goal: "Increase booked calls in 60 days",
-    steps: ["Site rebuild (Next.js)", "Local SEO tune-up", "Call tracking & analytics"],
-    metrics: [
-      { label: "Calls", value: "+72%" },
-      { label: "Organic traffic", value: "+38%" },
-      { label: "LCP", value: "1.2s" },
-    ],
-    bg: "/website-marketer-using-SEO-Dashboard.jpg",
-  };
-
-  const testimonials = [
-    { quote: "Leads doubled in six weeks. The site is fast and our phones ring.", name: "Dana C.", role: "Owner, Chelin Law", rating: 5 },
-    { quote: "Map Pack jumped to top 3 after the rebuild.", name: "Mike S.", role: "Founder, PRO Handyman", rating: 5 },
-    { quote: "Clean funnel and clear tracking—now ROAS makes sense.", name: "J. Rivera", role: "Events Director", rating: 5 },
-  ];
-
   return (
-    <section id="proof" className="relative mx-auto max-w-7xl scroll-mt-24 px-4 py-20" aria-labelledby="proof-heading">
-      {/* Soft background glow */}
+    <section
+      id="proof"
+      className="section relative mx-auto max-w-7xl scroll-mt-24 px-4 py-20"
+      aria-labelledby="proof-heading"
+    >
+      {/* Ambient background */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-[-25%] h-[740px] w-[1100px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-600/25 via-cyan-400/15 to-amber-300/10 blur-3xl" />
+        <div className="absolute left-1/2 top-[-25%] h-[720px] w-[1100px] -translate-x-1/2 rounded-[60px] bg-gradient-to-tr from-indigo-600/25 via-cyan-400/15 to-amber-300/10 blur-3xl" />
       </div>
 
       {/* Header */}
-      <div className="mx-auto mb-10 max-w-3xl text-center">
-        <h2 id="proof-heading" className="bg-gradient-to-r from-white via-emerald-200 to-white bg-clip-text text-3xl font-extrabold text-transparent md:text-4xl">
-          Results our clients feel
+      <header className="mx-auto mb-12 max-w-3xl text-center">
+        <p className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-indigo-200">
+          Proven results
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden />
+        </p>
+        <h2
+          id="proof-heading"
+          className="mt-3 bg-gradient-to-r from-white via-emerald-200 to-white bg-clip-text text-3xl font-extrabold text-transparent md:text-4xl"
+        >
+          Case studies, logos, and love from clients
         </h2>
-        <p className="mt-2 text-slate-300">Case studies, metrics, and real words from real customers.</p>
-      </div>
+        <p className="mt-2 text-slate-300">
+          Real projects, measurable gains, and happy partners.
+        </p>
+      </header>
 
-      {/* Logos strip (optional) */}
-      {logos.length > 0 && (
-        <div className="mx-auto mb-10 max-w-5xl">
-          <div className="rounded-2xl border border-white/10 bg-slate-900/40 p-3 backdrop-blur">
-            <div className="grid grid-cols-2 items-center justify-items-center gap-6 px-2 sm:grid-cols-3 md:grid-cols-5">
-              {logos.map((l) => (
-                <div key={l.alt} className="opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0">
-                  <Image
-                    src={l.src}
-                    alt={l.alt}
-                    width={140}
-                    height={36}
-                    loading="lazy"
-                    className="h-9 w-auto object-contain"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
-
+      {/* Consolidated primary grid */}
       <div className="grid gap-8 lg:grid-cols-5 lg:gap-10">
-        {/* Case study spotlight (now side-by-side on md+) */}
-        <article className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur lg:col-span-3">
-          <div className="grid items-stretch md:grid-cols-2">
-            {/* Visual */}
-            <div className="relative h-52 w-full md:h-auto">
+        {/* Spotlight (hero case study) */}
+        <article className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur lg:col-span-3">
+          <Link
+            href={CASE_STUDY_SPOTLIGHT.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            prefetch={false}
+            className="group grid items-stretch md:grid-cols-2"
+            aria-label={`Open case study: ${CASE_STUDY_SPOTLIGHT.client}`}
+          >
+            <div className="relative w-full aspect-[16/11] md:aspect-auto md:h-full">
               <Image
-                src={caseStudy.bg}
-                alt="Case study visual"
+                src={CASE_STUDY_SPOTLIGHT.bg}
+                alt={`${CASE_STUDY_SPOTLIGHT.client} website preview`}
                 fill
+                sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover"
-                priority
+                priority={false}
+                decoding="async"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/40 to-transparent md:bg-gradient-to-r md:from-slate-950/70 md:via-slate-950/30 md:to-transparent" />
               <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/30 px-3 py-1 text-xs font-semibold text-amber-200 backdrop-blur">
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-300" />
-                {caseStudy.tag}
+                {CASE_STUDY_SPOTLIGHT.tag}
               </span>
             </div>
 
-            {/* Copy */}
             <div className="p-6 md:p-8">
-              <h3 className="text-2xl font-bold">{caseStudy.client}</h3>
+              <h3 className="text-2xl font-bold">{CASE_STUDY_SPOTLIGHT.client}</h3>
               <p className="mt-2 text-slate-300">
-                <span className="font-semibold text-white">Goal:</span> {caseStudy.goal}
+                <span className="font-semibold text-white">Goal:</span> {CASE_STUDY_SPOTLIGHT.goal}
               </p>
 
               <ul className="mt-4 grid gap-2 text-slate-300 sm:grid-cols-2">
-                {caseStudy.steps.map((s) => (
+                {CASE_STUDY_SPOTLIGHT.steps.map((s) => (
                   <li key={s} className="flex items-start gap-2 text-sm">
                     <span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
                     {s}
@@ -103,9 +111,8 @@ export default function SocialProofSection() {
                 ))}
               </ul>
 
-              {/* Metric tiles */}
               <div className="mt-6 grid grid-cols-3 gap-2">
-                {caseStudy.metrics.map((m) => (
+                {CASE_STUDY_SPOTLIGHT.metrics.map((m) => (
                   <div key={m.label} className="rounded-xl border border-white/10 bg-slate-900/60 p-4 text-center">
                     <div className="text-xl font-extrabold text-white md:text-2xl">{m.value}</div>
                     <div className="text-[11px] text-slate-400">{m.label}</div>
@@ -113,75 +120,85 @@ export default function SocialProofSection() {
                 ))}
               </div>
 
-              {/* CTAs */}
-              <div className="mt-6 flex flex-wrap gap-3">
-                <div className="group relative">
-                  <div className="pointer-events-none absolute -inset-0.5 rounded-3xl bg-gradient-to-r from-indigo-500/30 via-cyan-400/20 to-amber-300/20 blur opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  <Link
-                    href="/#contact"
-                    className="relative inline-flex items-center rounded-2xl bg-gradient-to-r from-indigo-500 via-cyan-400 to-amber-300 p-[2px]"
-                  >
-                    <span className="inline-flex items-center gap-2 rounded-[14px] bg-slate-950/80 px-5 py-2.5 font-semibold text-white backdrop-blur transition-colors duration-200 group-hover:bg-transparent">
-                      Book a similar plan <span aria-hidden>↗</span>
-                    </span>
-                  </Link>
-                </div>
-
-                <Link
-  href="/#proof"   // ✅ was "/#work"
-  className="inline-flex items-center rounded-2xl border border-white/15 bg-white/5 px-5 py-2.5 font-semibold text-white transition hover:bg-white/10"
->
-  More results
-</Link>
-
+              <div className="mt-6 inline-flex items-center gap-2 text-indigo-200 underline-offset-4 group-hover:underline">
+                View live site <span aria-hidden>↗</span>
               </div>
             </div>
-          </div>
+          </Link>
         </article>
 
-        {/* Testimonials rail (snap on mobile → grid on desktop) */}
-        <aside className="lg:col-span-2">
-          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-1 lg:gap-6 lg:overflow-visible">
-            {testimonials.map((t) => (
-              <figure
-                key={`${t.name}-${t.role}`}
-                className="min-w-[85%] snap-start rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur sm:min-w-[70%] md:min-w-[55%] lg:min-w-0"
-              >
-                {/* Decorative quote & rating */}
-                <div className="flex items-center justify-between">
-                  <svg viewBox="0 0 24 24" className="h-6 w-6 text-white/20" aria-hidden>
-                    <path d="M7.17 6C4.87 6 3 7.87 3 10.17c0 1.85 1.12 3.42 2.71 4.06L5 21h6v-8H7.2c-.67 0-1.2-.53-1.2-1.2V10c0-1.57 1.27-2.83 2.83-2.83H10V6H7.17zm9 0C13.87 6 12 7.87 12 10.17c0 1.85 1.12 3.42 2.71 4.06L14 21h6v-8h-3.8c-.67 0-1.2-.53-1.2-1.2V10c0-1.57 1.27-2.83 2.83-2.83H19V6h-2.83z" />
-                  </svg>
-                  <Stars count={t.rating} />
+        {/* Right column stacks: logo marquee + testimonials */}
+        <div className="space-y-6 lg:col-span-2">
+          {/* Logo marquee (compact & visual) */}
+          <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 backdrop-blur">
+            <div className="marquee flex items-center gap-10 px-6 py-4 [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
+              {[...LOGOS, ...LOGOS].map((l, i) => (
+                <div key={`${l.alt}-${i}`} className="shrink-0 opacity-70 grayscale transition hover:opacity-100 hover:grayscale-0">
+                  <Image
+                    src={l.src}
+                    alt={l.alt}
+                    width={140}
+                    height={36}
+                    loading="lazy"
+                    decoding="async"
+                    sizes="140px"
+                    className="h-9 w-auto object-contain"
+                  />
                 </div>
-
-                <blockquote className="mt-3 text-slate-200">“{t.quote}”</blockquote>
-                <figcaption className="mt-4 text-sm text-slate-400">— {t.name}, {t.role}</figcaption>
-              </figure>
-            ))}
+              ))}
+            </div>
           </div>
-        </aside>
+
+          {/* Testimonials (client child handles scroll buttons) */}
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-2">
+            <TestimonialsRail testimonials={[...TESTIMONIALS]} />
+          </div>
+        </div>
+      </div>
+
+      {/* Case studies grid */}
+      <div className="mt-14">
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className="text-lg font-semibold text-white/90">Recent case studies</h3>
+          <Link
+            href="/#contact"
+            className="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-sm text-white transition hover:bg-white/10"
+          >
+            Start your project
+          </Link>
+        </div>
+
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {CASE_STUDIES.map((c) => (
+            <li key={c.title} className="group">
+              <Link
+                href={c.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                prefetch={false}
+                className="block overflow-hidden rounded-xl border border-white/10 bg-white/5"
+                aria-label={`Open ${c.title} website`}
+              >
+                <div className={`relative ${c.ratio}`}>
+                  <Image
+                    src={c.img}
+                    alt={`${c.title} website`}
+                    fill
+                    loading="lazy"
+                    decoding="async"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition will-change-transform group-hover:scale-[1.02]"
+                  />
+                </div>
+                <div className="flex items-center justify-between px-4 py-3 text-sm text-slate-200">
+                  <span className="font-medium">{c.title}</span>
+                  <span className="opacity-70">Visit ↗</span>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
-  );
-}
-
-/* ---------- small helpers ---------- */
-
-function Stars({ count = 5 }: { count?: number }) {
-  return (
-    <div className="inline-flex items-center gap-0.5" aria-label={`${count} out of 5 stars`}>
-      {Array.from({ length: 5 }).map((_, idx) => (
-        <svg
-          key={idx}
-          viewBox="0 0 20 20"
-          className={`h-4 w-4 ${idx < count ? "text-amber-300" : "text-white/20"}`}
-          fill="currentColor"
-          aria-hidden
-        >
-          <path d="M10 2l2.39 4.85 5.36.78-3.88 3.78.92 5.35L10 14.9l-4.79 2.5.92-5.35L2.25 7.63l5.36-.78L10 2z" />
-        </svg>
-      ))}
-    </div>
   );
 }

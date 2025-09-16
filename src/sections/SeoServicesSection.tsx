@@ -4,12 +4,12 @@ import styles from "./SeoServicesSection.module.css";
 
 export default function SeoServicesSection() {
   const items = [
-    { icon: "🛒", title: "E-Commerce SEO",     desc: "Optimize collections & PDPs to grow organic traffic and revenue." },
-    { icon: "📍", title: "Local SEO",          desc: "GBP, citations, reviews & location pages to win the Map Pack." },
-    { icon: "🌎", title: "National SEO",       desc: "Research-driven content, technical fixes, and authority building." },
-    { icon: "🔗", title: "Link Building",      desc: "White-hat outreach and digital PR for credible, relevant links." },
-    { icon: "✍️", title: "SEO Content Writing",desc: "Editorial plans, briefs, and upgrades to existing pages." },
-    { icon: "🤖", title: "GEO (AI Search)",    desc: "Schema/entity tuning & answer-ready content for generative results." },
+    { icon: "🛒", title: "E-Commerce SEO",      desc: "Optimize collections & PDPs to grow organic traffic and revenue." },
+    { icon: "📍", title: "Local SEO",           desc: "GBP, citations, reviews & location pages to win the Map Pack." },
+    { icon: "🌎", title: "National SEO",        desc: "Research-driven content, technical fixes, and authority building." },
+    { icon: "🔗", title: "Link Building",       desc: "White-hat outreach and digital PR for credible, relevant links." },
+    { icon: "✍️", title: "SEO Content Writing", desc: "Editorial plans, briefs, and upgrades to existing pages." },
+    { icon: "🤖", title: "GEO (AI Search)",     desc: "Schema/entity tuning & answer-ready content for generative results." },
   ];
 
   const metrics = [
@@ -44,7 +44,7 @@ export default function SeoServicesSection() {
             key={it.title}
             className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:bg-white/10"
           >
-            <div className="text-3xl">{it.icon}</div>
+            <div className="text-3xl" aria-hidden="true">{it.icon}</div>
             <h3 className="mt-4 text-lg font-semibold">{it.title}</h3>
             <p className="mt-2 text-sm text-slate-300">{it.desc}</p>
           </article>
@@ -79,11 +79,10 @@ export default function SeoServicesSection() {
 
             {/* CTAs */}
             <div className="mt-6 flex flex-wrap gap-3">
-              {/* Primary: gradient ring + glow */}
               <div className="group relative">
                 <div className="pointer-events-none absolute -inset-0.5 rounded-3xl bg-gradient-to-r from-indigo-500/30 via-cyan-400/20 to-amber-300/20 blur opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <Link
-                  href="/#contact" // works from any route
+                  href="/#contact"
                   aria-label="Get an SEO game plan"
                   className="relative inline-flex items-center rounded-2xl bg-gradient-to-r from-indigo-500 via-cyan-400 to-amber-300 p-[2px]"
                 >
@@ -93,7 +92,6 @@ export default function SeoServicesSection() {
                 </Link>
               </div>
 
-              {/* Secondary: learn more → dedicated SEO page */}
               <Link
                 href="/services/seo"
                 aria-label="Learn more about our SEO services"
@@ -102,7 +100,6 @@ export default function SeoServicesSection() {
                 Learn More
               </Link>
 
-              {/* Optional tertiary: pricing anchor */}
               <Link
                 href="/pricing#marketing"
                 aria-label="See SEO packages and pricing"
@@ -117,8 +114,12 @@ export default function SeoServicesSection() {
           <div className="relative min-h-[320px] overflow-hidden border-t border-white/10 md:border-l md:border-t-0">
             <Image
               src="/website-marketer-using-SEO-Dashboard.jpg"
-              alt="SEO dashboard preview with Core Web Vitals and rankings"
+              alt=""                    // decorative; title/CTAs provide context
+              aria-hidden="true"
               fill
+              decoding="async"
+              loading="lazy"
+              sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/40 to-transparent" />
@@ -146,9 +147,13 @@ export default function SeoServicesSection() {
         </div>
       </div>
 
-      {/* Tech ribbon (marquee using CSS module animation) */}
-      <div className="mx-auto mt-10 max-w-7xl overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 py-3 backdrop-blur">
-        <div className={`flex whitespace-nowrap text-xs text-slate-300 [--gap:2rem] ${styles.techScroll}`}>
+      {/* Tech chips (static, no scrolling marquee) */}
+      <div className="mx-auto mt-10 max-w-7xl rounded-2xl border border-white/10 bg-slate-900/40 p-4 backdrop-blur">
+        <div
+          role="list"
+          aria-label="Technologies we use"
+          className="flex flex-wrap items-center gap-3 text-xs text-slate-200"
+        >
           {[
             "Next.js App Router",
             "React Server Components",
@@ -160,20 +165,13 @@ export default function SeoServicesSection() {
             "A/B Testing",
             "Core Web Vitals",
             "Accessibility",
-            // duplicate for seamless loop
-            "Next.js App Router",
-            "React Server Components",
-            "ISR & Edge",
-            "TypeScript",
-            "Tailwind CSS",
-            "Vercel",
-            "Analytics & Pixels",
-            "A/B Testing",
-            "Core Web Vitals",
-            "Accessibility",
-          ].map((t, i) => (
-            <span key={i} className="mx-[var(--gap)] inline-flex items-center gap-2">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-cyan-400/80" />
+          ].map((t) => (
+            <span
+              key={t}
+              role="listitem"
+              className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 px-3 py-1"
+            >
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-cyan-400/80" aria-hidden="true" />
               {t}
             </span>
           ))}

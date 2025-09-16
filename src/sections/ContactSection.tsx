@@ -11,6 +11,7 @@ export default function ContactSection() {
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (status === "sending") return; // guard against double submit
     setStatus("sending");
     setErrorText("");
     const fd = new FormData(e.currentTarget);
@@ -25,6 +26,7 @@ export default function ContactSection() {
           message: fd.get("message"),
           phone: fd.get("phone"),
           company: fd.get("company"),
+          // optional fields your API accepts; safe to send even if empty:
           service: fd.get("service"),
           budget: fd.get("budget"),
           source: fd.get("source"),
@@ -38,7 +40,7 @@ export default function ContactSection() {
         e.currentTarget.reset();
       } else {
         setStatus("error");
-        setErrorText(!res.ok && "error" in json ? json.error : "Something went wrong.");
+        setErrorText("error" in json ? json.error : "Something went wrong.");
       }
     } catch {
       setStatus("error");
@@ -56,12 +58,15 @@ export default function ContactSection() {
         <p className="mt-2 text-slate-300">Tell us about your project and we’ll reply quickly.</p>
       </header>
 
-      <form onSubmit={onSubmit} className="mt-8 grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-6">
+      <form onSubmit={onSubmit} className="mt-8 grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-6" noValidate>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="name" className="block text-sm text-slate-300">Name *</label>
             <input
-              id="name" name="name" required
+              id="name"
+              name="name"
+              required
+              autoComplete="name"
               className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-400/30"
               placeholder="Jane Smith"
             />
@@ -69,7 +74,12 @@ export default function ContactSection() {
           <div>
             <label htmlFor="email" className="block text-sm text-slate-300">Email *</label>
             <input
-              id="email" name="email" type="email" required
+              id="email"
+              name="email"
+              type="email"
+              required
+              autoComplete="email"
+              inputMode="email"
               className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-400/30"
               placeholder="jane@company.com"
             />
@@ -80,7 +90,10 @@ export default function ContactSection() {
           <div>
             <label htmlFor="phone" className="block text-sm text-slate-300">Phone</label>
             <input
-              id="phone" name="phone"
+              id="phone"
+              name="phone"
+              autoComplete="tel"
+              inputMode="tel"
               className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-400/30"
               placeholder="(702) 555-0133"
             />
@@ -88,9 +101,11 @@ export default function ContactSection() {
           <div>
             <label htmlFor="company" className="block text-sm text-slate-300">Company</label>
             <input
-              id="company" name="company"
+              id="company"
+              name="company"
+              autoComplete="organization"
               className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-400/30"
-              placeholder="Market Pros LV"
+              placeholder="Webcraft Lab"
             />
           </div>
         </div>
@@ -98,7 +113,11 @@ export default function ContactSection() {
         <div>
           <label htmlFor="message" className="block text-sm text-slate-300">How can we help? *</label>
           <textarea
-            id="message" name="message" rows={5} required minLength={10}
+            id="message"
+            name="message"
+            rows={5}
+            required
+            minLength={10}
             className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-400/30"
             placeholder="Tell us about your site, SEO, ads, timeline, and goals…"
           />
@@ -111,10 +130,16 @@ export default function ContactSection() {
           <button
             type="submit"
             disabled={status === "sending"}
-            className="inline-flex items-center rounded-2xl bg-indigo-500 px-5 py-2.5 font-semibold text-white transition hover:bg-indigo-400 disabled:opacity-60"
+            className="inline-flex items-center rounded-2xl bg-cyan-500 px-5 py-2.5 font-semibold text-slate-950 transition hover:bg-cyan-400 disabled:opacity-60"
           >
             {status === "sending" ? "Sending…" : "Send Message"}
           </button>
+
+          {/* live status for screen readers */}
+          <span className="sr-only" role="status" aria-live="polite">
+            {status === "sending" ? "Sending" : status === "ok" ? "Sent" : status === "error" ? "Error" : ""}
+          </span>
+
           {status === "ok" && <span className="text-sm text-emerald-300">Thanks! We’ll reply shortly.</span>}
           {status === "error" && (
             <span className="text-sm text-amber-300">{errorText || "Something went wrong—try again."}</span>

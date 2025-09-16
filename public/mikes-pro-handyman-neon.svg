@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img">
+<rect width="512" height="512" fill="#1B1200"/>
+<g transform="translate(0,0)">
+
+    <!-- Wrench icon -->
+    <path d="M188 208a40 40 0 0 1 62 46l62 62-30 30-62-62a40 40 0 0 1-32-76z" fill="#FF8A00"/>
+    <circle cx="206" cy="226" r="8" fill="#FFD000"/>
+    <!-- Badge plate -->
+    <rect x="140" y="320" width="232" height="56" rx="12" fill="#FFD000"/>
+    <!-- Text -->
+    <text x="256" y="360" font-family="Inter, ui-sans-serif, system-ui" font-size="24" fill="#0B0B0B" text-anchor="middle" font-weight="800">Mike’s Pro Handyman</text>
+    </g>
+</svg>
