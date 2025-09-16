@@ -1,4 +1,3 @@
-// src/sections/PricingTeaser.tsx
 import Link from "next/link";
 import type { ReactNode } from "react";
 import {
@@ -9,14 +8,10 @@ import {
 } from "@/lib/pricing";
 
 type Props = {
-  /** Show N tiers (default 4) */
   limit?: number;
-  /** Where to send clicks (default "/pricing") */
   href?: string;
-  /** Optional headline/subhead overrides */
   title?: string;
   subtitle?: string;
-  /** Add #hash per tier id (default true -> /pricing#starter, /pricing#pro, ...) */
   hashByTier?: boolean;
 };
 
@@ -57,36 +52,38 @@ export default function PricingTeaser({
   const tiers = TIERS.slice(0, limit);
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20">
-      {/* background */}
+    <section
+      aria-labelledby="pricing-teaser-heading"
+      className="relative overflow-hidden py-18 sm:py-24"
+    >
+      {/* Clean, low-noise background with subtle vignette */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950" />
-        <svg className="absolute inset-0 h-full w-full opacity-[0.12]">
-          <defs>
-            <pattern id="gp" width="28" height="28" patternUnits="userSpaceOnUse">
-              <path d="M28 0H0v28" fill="none" stroke="currentColor" strokeWidth="0.8" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#gp)" />
-        </svg>
-        <div className="absolute left-1/2 top-0 h-64 w-[40rem] -translate-x-1/2 rounded-full bg-emerald-500/20 blur-[80px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_-10%,rgba(34,211,238,0.08),transparent),linear-gradient(to_bottom,#0b1020,#0a0c10)]" />
       </div>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* centered header */}
+        {/* Header (space-y prevents text clipping; relaxed leading) */}
         <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold text-emerald-200">
-            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold text-cyan-200">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-400" />
             Transparent & flexible
           </span>
-          <h2 className="mt-4 bg-gradient-to-r from-white via-emerald-200 to-white bg-clip-text text-3xl font-extrabold tracking-tight text-transparent sm:text-4xl">
-            {title}
-          </h2>
-          <p className="mt-2 text-slate-300">{subtitle}</p>
+
+          <div className="mt-5 space-y-3 sm:space-y-4">
+            <h2
+              id="pricing-teaser-heading"
+              className="bg-gradient-to-r from-white via-cyan-200 to-white bg-clip-text text-3xl font-extrabold tracking-tight text-transparent leading-[1.15] sm:text-4xl"
+            >
+              {title}
+            </h2>
+            <p className="text-base text-slate-300 sm:text-lg leading-relaxed">
+              {subtitle}
+            </p>
+          </div>
         </div>
 
-        {/* centered grid: max width + auto margins keeps it centered, plus justify-items for balance */}
-        <div className="mx-auto mt-10 grid max-w-6xl justify-items-stretch gap-5 sm:grid-cols-2 lg:max-w-7xl lg:grid-cols-4">
+        {/* Cards */}
+        <div className="mx-auto mt-12 grid max-w-6xl justify-items-stretch gap-6 sm:grid-cols-2 lg:max-w-7xl lg:grid-cols-4">
           {tiers.map((t) => {
             const isHot = Boolean(t.highlight);
             const to = hashByTier ? `${href}#${t.id}` : href;
@@ -95,22 +92,20 @@ export default function PricingTeaser({
               <Link
                 key={t.id}
                 href={to}
+                prefetch={false}
+                aria-label={`See details for ${t.name}`}
                 className={[
-                  "group relative rounded-2xl border p-5 transition",
-                  "bg-slate-900/50 backdrop-blur-sm",
+                  "group relative w-full rounded-2xl border p-6 transition",
+                  "bg-white/5 backdrop-blur-sm",
                   isHot
-                    ? "border-emerald-500/40 ring-1 ring-inset ring-emerald-500/40 shadow-[0_0_35px_-10px_rgba(16,185,129,.35)]"
+                    ? "border-cyan-400/40 ring-1 ring-inset ring-cyan-400/40 shadow-[0_0_40px_-14px_rgba(34,211,238,.35)]"
                     : "border-white/10 hover:border-white/20",
                   "hover:-translate-y-0.5 hover:shadow-lg",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400",
-                  // ensure cards don't look left-aligned inside the grid cell
-                  "w-full",
+                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400",
                 ].join(" ")}
-                aria-label={`See details for ${t.name}`}
-                prefetch={false}
               >
                 {isHot && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-2 py-0.5 text-xs font-bold text-emerald-950 shadow">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-cyan-400 px-2 py-0.5 text-xs font-bold text-cyan-950 shadow">
                     Most Popular
                   </span>
                 )}
@@ -121,7 +116,7 @@ export default function PricingTeaser({
                       className={[
                         "grid h-10 w-10 place-items-center rounded-xl",
                         isHot
-                          ? "bg-emerald-500/20 text-emerald-300 ring-1 ring-emerald-400/40"
+                          ? "bg-cyan-400/20 text-cyan-200 ring-1 ring-cyan-300/40"
                           : "bg-white/5 text-slate-200 ring-1 ring-white/10",
                       ].join(" ")}
                     >
@@ -129,7 +124,9 @@ export default function PricingTeaser({
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-white">{t.name}</h3>
-                      <p className="mt-0.5 text-sm text-slate-300 line-clamp-2">{t.tagline}</p>
+                      <p className="mt-1 line-clamp-2 text-sm text-slate-300">
+                        {t.tagline}
+                      </p>
                     </div>
                   </div>
 
@@ -145,21 +142,21 @@ export default function PricingTeaser({
                   {t.features.slice(0, 3).map((k) => (
                     <span
                       key={k}
-                      className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-slate-200 group-hover:border-white/20"
                       title={featuresCatalog[k] ?? k}
+                      className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-slate-200 group-hover:border-white/20"
                     >
                       {featuresCatalog[k] ?? k}
                     </span>
                   ))}
                 </div>
 
-                <div className="mt-5 flex items-center justify-between">
+                <div className="mt-6 flex items-center justify-between">
                   <span className="text-xs text-slate-400">Compare features ↓</span>
                   <span
                     className={[
                       "inline-flex items-center rounded-xl px-3 py-1.5 text-sm font-semibold transition",
                       isHot
-                        ? "bg-emerald-500 text-emerald-950 group-hover:bg-emerald-400"
+                        ? "bg-cyan-400 text-cyan-950 group-hover:bg-cyan-300"
                         : "bg-white/10 text-white group-hover:bg-white/15",
                     ].join(" ")}
                   >
@@ -174,12 +171,14 @@ export default function PricingTeaser({
                   </span>
                 </div>
 
+                {/* hover glow */}
                 <div
                   aria-hidden
                   className={[
-                    "pointer-events-none absolute inset-x-0 bottom-0 h-10",
-                    isHot ? "bg-gradient-to-t from-emerald-500/20 to-transparent" : "bg-gradient-to-t from-white/5 to-transparent",
-                    "opacity-0 transition-opacity duration-300 group-hover:opacity-100",
+                    "pointer-events-none absolute inset-x-0 bottom-0 h-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100",
+                    isHot
+                      ? "bg-gradient-to-t from-cyan-400/20 to-transparent"
+                      : "bg-gradient-to-t from-white/5 to-transparent",
                   ].join(" ")}
                 />
               </Link>
@@ -187,8 +186,8 @@ export default function PricingTeaser({
           })}
         </div>
 
-        {/* centered footer CTA */}
-        <div className="mt-10 text-center">
+        {/* Footer CTA */}
+        <div className="mt-12 text-center">
           <Link
             href={href}
             prefetch={false}

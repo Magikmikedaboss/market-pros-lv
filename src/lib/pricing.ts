@@ -13,10 +13,11 @@ export type Tier = {
 };
 
 export const PRICING_SETTINGS = {
-  brand: "Market Pros LV",
+  brand: "Webcraft Lab",           // ✅ update
   currencySymbol: "$",
-  yearlyDiscountPctDefault: 15, // used by the toggle in your UI
+  yearlyDiscountPctDefault: 15,
 };
+
 
 // Utility used by your component
 export function computeDisplayPrice(

@@ -1,5 +1,5 @@
 import Hero from "@/sections/Hero";
-import AboutSection from "@/sections/AboutSection";
+import AboutSection from "@/sections/AboutHero";
 import ServicesSection from "@/sections/ServicesSection";
 import SeoServicesSection from "@/sections/SeoServicesSection";
 import SocialProofSection from "@/sections/SocialProofSection";

@@ -1,21 +1,21 @@
-// src/sections/SeoServicesSection.tsx
 import Image from "next/image";
 import Link from "next/link";
+import styles from "./SeoServicesSection.module.css";
 
 export default function SeoServicesSection() {
   const items = [
-    { icon: "🛒", title: "E-Commerce SEO", desc: "Optimize collections & PDPs to grow organic traffic and revenue." },
-    { icon: "📍", title: "Local SEO", desc: "GBP, citations, reviews & location pages to win the Map Pack." },
-    { icon: "🌎", title: "National SEO", desc: "Research-driven content, technical fixes, and authority building." },
-    { icon: "🔗", title: "Link Building", desc: "White-hat outreach and digital PR for credible, relevant links." },
-    { icon: "✍️", title: "SEO Content Writing", desc: "Editorial plans, briefs, and upgrades to existing pages." },
-    { icon: "🤖", title: "GEO (AI Search)", desc: "Schema/entity tuning & answer-ready content for generative results." },
+    { icon: "🛒", title: "E-Commerce SEO",     desc: "Optimize collections & PDPs to grow organic traffic and revenue." },
+    { icon: "📍", title: "Local SEO",          desc: "GBP, citations, reviews & location pages to win the Map Pack." },
+    { icon: "🌎", title: "National SEO",       desc: "Research-driven content, technical fixes, and authority building." },
+    { icon: "🔗", title: "Link Building",      desc: "White-hat outreach and digital PR for credible, relevant links." },
+    { icon: "✍️", title: "SEO Content Writing",desc: "Editorial plans, briefs, and upgrades to existing pages." },
+    { icon: "🤖", title: "GEO (AI Search)",    desc: "Schema/entity tuning & answer-ready content for generative results." },
   ];
 
   const metrics = [
     { label: "Avg. LCP (mobile)", value: "≤1.8s" },
-    { label: "Core Web Vitals", value: "90%+" },
-    { label: "CTR lift", value: "↑" },
+    { label: "Core Web Vitals",   value: "90%+" },
+    { label: "CTR lift",          value: "↑" },
   ];
 
   const tech = ["App Router", "ISR (revalidate)", "Edge caching", "next/image", "Server Actions", "TypeScript"];
@@ -79,11 +79,12 @@ export default function SeoServicesSection() {
 
             {/* CTAs */}
             <div className="mt-6 flex flex-wrap gap-3">
-              {/* gradient ring + glow */}
+              {/* Primary: gradient ring + glow */}
               <div className="group relative">
                 <div className="pointer-events-none absolute -inset-0.5 rounded-3xl bg-gradient-to-r from-indigo-500/30 via-cyan-400/20 to-amber-300/20 blur opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <Link
-                  href="/#contact"
+                  href="/#contact" // works from any route
+                  aria-label="Get an SEO game plan"
                   className="relative inline-flex items-center rounded-2xl bg-gradient-to-r from-indigo-500 via-cyan-400 to-amber-300 p-[2px]"
                 >
                   <span className="inline-flex items-center gap-2 rounded-[14px] bg-slate-950/80 px-5 py-2.5 font-semibold text-white backdrop-blur transition-colors duration-200 group-hover:bg-transparent">
@@ -91,11 +92,23 @@ export default function SeoServicesSection() {
                   </span>
                 </Link>
               </div>
+
+              {/* Secondary: learn more → dedicated SEO page */}
               <Link
-                href="/services"
+                href="/services/seo"
+                aria-label="Learn more about our SEO services"
                 className="inline-flex items-center rounded-2xl border border-white/15 bg-white/5 px-5 py-2.5 font-semibold text-white transition hover:bg-white/10"
               >
                 Learn More
+              </Link>
+
+              {/* Optional tertiary: pricing anchor */}
+              <Link
+                href="/pricing#marketing"
+                aria-label="See SEO packages and pricing"
+                className="inline-flex items-center rounded-2xl px-5 py-2.5 font-semibold text-white underline-offset-4 hover:underline"
+              >
+                See Packages
               </Link>
             </div>
           </div>
@@ -103,12 +116,11 @@ export default function SeoServicesSection() {
           {/* Right: visual — Next.js tech & LCP pulse */}
           <div className="relative min-h-[320px] overflow-hidden border-t border-white/10 md:border-l md:border-t-0">
             <Image
-  src="/website-marketer-using-SEO-Dashboard.jpg"
-  alt="SEO dashboard preview with Core Web Vitals and rankings"
-  fill
-  className="object-cover"
-/>
-
+              src="/website-marketer-using-SEO-Dashboard.jpg"
+              alt="SEO dashboard preview with Core Web Vitals and rankings"
+              fill
+              className="object-cover"
+            />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/40 to-transparent" />
 
             {/* glass tech card */}
@@ -122,11 +134,11 @@ export default function SeoServicesSection() {
                 ))}
               </div>
 
-              {/* LCP pulse bar (Tailwind animation) */}
+              {/* LCP pulse bar */}
               <div className="mt-4">
                 <div className="text-[11px] text-slate-400">Mobile LCP target (simulated):</div>
                 <div className="mt-1 h-2 w-full overflow-hidden rounded bg-slate-800">
-                  <div className="h-full w-1/3 animate-lcpPulse bg-emerald-400/90" />
+                  <div className={`h-full w-1/3 bg-emerald-400/90 ${styles.lcpPulse}`} />
                 </div>
               </div>
             </div>
@@ -134,9 +146,9 @@ export default function SeoServicesSection() {
         </div>
       </div>
 
-      {/* Tech ribbon (marquee using Tailwind animation) */}
+      {/* Tech ribbon (marquee using CSS module animation) */}
       <div className="mx-auto mt-10 max-w-7xl overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 py-3 backdrop-blur">
-        <div className="flex animate-techScroll whitespace-nowrap text-xs text-slate-300 [--gap:2rem]">
+        <div className={`flex whitespace-nowrap text-xs text-slate-300 [--gap:2rem] ${styles.techScroll}`}>
           {[
             "Next.js App Router",
             "React Server Components",

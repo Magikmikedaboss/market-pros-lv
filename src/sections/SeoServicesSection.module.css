@@ -1,0 +1,17 @@
+.lcpPulse {
+  animation: lcpPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes lcpPulse {
+  0%, 100% { transform: translateX(-10%); }
+  50%      { transform: translateX(110%); }
+}
+
+.techScroll {
+  animation: techScroll 18s linear infinite;
+}
+
+@keyframes techScroll {
+  0%   { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}

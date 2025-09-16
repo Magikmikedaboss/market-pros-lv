@@ -2,7 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* optional dark tokens */
-:root{ --bg: 10 12 16; --fg: 242 243 247; }
+/* Smooth scroll, but respect accessibility preferences */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Optional dark tokens */
+:root { --bg: 10 12 16; --fg: 242 243 247; }
 html { color-scheme: dark; }
 body { background: rgb(var(--bg)); color: rgb(var(--fg)); }
+
+/* If you use a sticky header, keep anchors from hiding under it */
+[id] { scroll-margin-top: 5rem; } /* adjust if your header is taller */

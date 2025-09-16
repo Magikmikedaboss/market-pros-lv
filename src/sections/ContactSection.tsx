@@ -1,156 +1,125 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { track } from "@/lib/analytics";
+
+type ApiResp = { ok: true } | { ok: false; error: string };
 
 export default function ContactSection() {
-  const formRef = useRef<HTMLFormElement>(null);
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
-  const [error, setError] = useState<string | null>(null);
-  const [pagePath, setPagePath] = useState("/");
-
-  useEffect(() => {
-    if (typeof window !== "undefined") setPagePath(window.location.pathname);
-  }, []);
+  const [status, setStatus] = useState<"idle" | "sending" | "ok" | "error">("idle");
+  const [errorText, setErrorText] = useState<string>("");
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus("sending");
-    setError(null);
-
-    const form = formRef.current;
-    if (!form) return;
-
-    const fd = new FormData(form);
-
-    // Honeypot
-    if (String(fd.get("company"))?.trim()) {
-      setStatus("error");
-      setError("Something went wrong. Please email us directly.");
-      return;
-    }
-
-    const body = {
-      name: String(fd.get("name") || ""),
-      email: String(fd.get("email") || ""),
-      phone: String(fd.get("phone") || ""),
-      website: String(fd.get("website") || ""),
-      message: String(fd.get("message") || ""),
-      source: "website_contact",
-      page: pagePath,
-    };
+    setErrorText("");
+    const fd = new FormData(e.currentTarget);
 
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: JSON.stringify({
+          name: fd.get("name"),
+          email: fd.get("email"),
+          message: fd.get("message"),
+          phone: fd.get("phone"),
+          company: fd.get("company"),
+          service: fd.get("service"),
+          budget: fd.get("budget"),
+          source: fd.get("source"),
+          extra_field: fd.get("extra_field"), // honeypot
+        }),
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data?.ok) throw new Error(data?.error || "Request failed");
-
-      setStatus("sent");
-      formRef.current?.reset();
-    } catch (err: any) {
+      const json = (await res.json()) as ApiResp;
+      if (res.ok && json.ok) {
+        setStatus("ok");
+        track("contact_submit", { source: "contact_section" });
+        e.currentTarget.reset();
+      } else {
+        setStatus("error");
+        setErrorText(!res.ok && "error" in json ? json.error : "Something went wrong.");
+      }
+    } catch {
       setStatus("error");
-      setError(err?.message || "Something went wrong. Please email us directly.");
+      setErrorText("Network error. Please try again.");
     }
   }
 
   return (
-    <section id="contact" className="scroll-mt-24 mx-auto max-w-3xl px-4 py-20">
-      <div className="mb-10 text-center">
-        <h2 className="text-3xl font-bold md:text-4xl">Send us a message</h2>
-        <p className="mt-2 text-slate-300">
-          Tell us what you’re working on—we’ll respond within 1 business day.
+    <section id="contact" className="relative z-0 mx-auto max-w-3xl px-4 py-16">
+      <header className="text-center">
+        <p className="mx-auto w-fit rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs uppercase tracking-wider text-slate-300">
+          Get in touch
         </p>
-      </div>
+        <h2 className="mt-3 text-3xl font-extrabold text-white">Book a Free Strategy Call</h2>
+        <p className="mt-2 text-slate-300">Tell us about your project and we’ll reply quickly.</p>
+      </header>
 
-      {/* Contact form only (Calendly removed) */}
-      <form
-        ref={formRef}
-        onSubmit={onSubmit}
-        className="rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6"
-      >
-        {/* Honeypot (hidden) */}
-        <label className="sr-only">
-          Company
-          <input name="company" autoComplete="off" tabIndex={-1} className="hidden" />
-        </label>
-
-        <div className="mt-1 grid gap-4 sm:grid-cols-2">
-          <label className="grid gap-1 text-sm">
-            <span className="text-slate-300">Name</span>
+      <form onSubmit={onSubmit} className="mt-8 grid gap-4 rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="name" className="block text-sm text-slate-300">Name *</label>
             <input
-              name="name"
-              required
-              className="rounded-lg bg-slate-900/60 px-3 py-2 ring-1 ring-white/10 focus:outline-none focus:ring-indigo-400"
+              id="name" name="name" required
+              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-400/30"
               placeholder="Jane Smith"
             />
-          </label>
-          <label className="grid gap-1 text-sm">
-            <span className="text-slate-300">Email</span>
+          </div>
+          <div>
+            <label htmlFor="email" className="block text-sm text-slate-300">Email *</label>
             <input
-              name="email"
-              type="email"
-              required
-              className="rounded-lg bg-slate-900/60 px-3 py-2 ring-1 ring-white/10 focus:outline-none focus:ring-indigo-400"
-              placeholder="you@email.com"
+              id="email" name="email" type="email" required
+              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-400/30"
+              placeholder="jane@company.com"
             />
-          </label>
+          </div>
         </div>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <label className="grid gap-1 text-sm">
-            <span className="text-slate-300">Phone (optional)</span>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="phone" className="block text-sm text-slate-300">Phone</label>
             <input
-              name="phone"
-              inputMode="tel"
-              className="rounded-lg bg-slate-900/60 px-3 py-2 ring-1 ring-white/10 focus:outline-none focus:ring-indigo-400"
-              placeholder="(702) 555-0123"
+              id="phone" name="phone"
+              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-400/30"
+              placeholder="(702) 555-0133"
             />
-          </label>
-          <label className="grid gap-1 text-sm">
-            <span className="text-slate-300">Website (optional)</span>
+          </div>
+          <div>
+            <label htmlFor="company" className="block text-sm text-slate-300">Company</label>
             <input
-              name="website"
-              type="url"
-              className="rounded-lg bg-slate-900/60 px-3 py-2 ring-1 ring-white/10 focus:outline-none focus:ring-indigo-400"
-              placeholder="https://example.com"
+              id="company" name="company"
+              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-400/30"
+              placeholder="Market Pros LV"
             />
-          </label>
+          </div>
         </div>
 
-        <label className="mt-4 grid gap-1 text-sm">
-          <span className="text-slate-300">Message</span>
+        <div>
+          <label htmlFor="message" className="block text-sm text-slate-300">How can we help? *</label>
           <textarea
-            name="message"
-            rows={6}
-            required
-            className="rounded-lg bg-slate-900/60 px-3 py-2 ring-1 ring-white/10 focus:outline-none focus:ring-indigo-400"
-            placeholder="What are you trying to achieve in the next 90 days?"
+            id="message" name="message" rows={5} required minLength={10}
+            className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-cyan-400/30"
+            placeholder="Tell us about your site, SEO, ads, timeline, and goals…"
           />
-        </label>
+        </div>
 
-        <div className="mt-5 flex flex-wrap items-center gap-3">
+        {/* Honeypot for bots (must stay empty) */}
+        <input type="text" name="extra_field" tabIndex={-1} autoComplete="off" className="hidden" />
+
+        <div className="flex flex-wrap items-center gap-3">
           <button
             type="submit"
             disabled={status === "sending"}
-            className="rounded-xl bg-indigo-500 px-5 py-2 font-semibold text-white transition hover:bg-indigo-400 disabled:opacity-60"
+            className="inline-flex items-center rounded-2xl bg-indigo-500 px-5 py-2.5 font-semibold text-white transition hover:bg-indigo-400 disabled:opacity-60"
           >
-            {status === "sending" ? "Sending..." : "Send message"}
+            {status === "sending" ? "Sending…" : "Send Message"}
           </button>
-          {status === "sent" && (
-            <span className="text-sm text-emerald-400">Thanks! We’ll be in touch.</span>
+          {status === "ok" && <span className="text-sm text-emerald-300">Thanks! We’ll reply shortly.</span>}
+          {status === "error" && (
+            <span className="text-sm text-amber-300">{errorText || "Something went wrong—try again."}</span>
           )}
-          {status === "error" && <span className="text-sm text-red-400">{error}</span>}
         </div>
-
-        <p className="mt-3 text-sm text-slate-400">
-          Or email us:{" "}
-          <a className="underline" href="mailto:hello@your-domain.com">
-            hello@your-domain.com
-          </a>
-        </p>
       </form>
     </section>
   );
