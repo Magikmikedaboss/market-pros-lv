@@ -1,6 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{ts,tsx,js,jsx}"],
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./sections/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}", // keep if you actually use /src
+    "./public/**/*.html",
+  ],
   theme: {
     extend: {
       keyframes: {
@@ -9,7 +16,7 @@ module.exports = {
           "50%": { transform: "translateX(110%)" },
         },
         techScroll: {
-          "0%":   { transform: "translateX(0%)" },
+          "0%": { transform: "translateX(0%)" },
           "100%": { transform: "translateX(-50%)" },
         },
       },

@@ -12,8 +12,8 @@ export default function Page() {
       <Hero />
       <AboutSection />
       <ServicesSection />
-      <SeoServicesSection />
       <SocialProofSection />
+      <SeoServicesSection />
       <PricingTeaser limit={4} href="/pricing" hashByTier />
       {/* centered + 4 tiers + deep links */}
       <ContactSection />

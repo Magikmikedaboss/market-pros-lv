@@ -1,32 +1,19 @@
-// src/sections/TestimonialsRail.client.tsx
 "use client";
 
 import { useEffect, useRef, useState } from "react";
 
-type Testimonial = {
-  quote: string;
-  name: string;
-  role: string;
-  rating: number; // 0–5
-};
-
-type Props = {
-  testimonials: ReadonlyArray<Testimonial>;
-};
+type Testimonial = { quote: string; name: string; role: string; rating: number };
+type Props = { testimonials: ReadonlyArray<Testimonial> };
 
 export default function TestimonialsRail({ testimonials }: Props) {
   const railRef = useRef<HTMLDivElement | null>(null);
-  const [railWidth, setRailWidth] = useState<number>(0);
+  const [railWidth, setRailWidth] = useState(0);
 
-  // Cache width once and when it changes; avoids read-after-write reflow in click handler
+  // Cache the visible width only (contentRect.width), and re-run if container resizes.
   useEffect(() => {
     const el = railRef.current;
     if (!el) return;
-
-    const ro = new ResizeObserver(([entry]) => {
-      setRailWidth(entry.contentRect.width);
-    });
-
+    const ro = new ResizeObserver(([entry]) => setRailWidth(entry.contentRect.width));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -34,7 +21,7 @@ export default function TestimonialsRail({ testimonials }: Props) {
   const scrollRail = (dir: "prev" | "next") => {
     const el = railRef.current;
     if (!el) return;
-    const delta = (dir === "next" ? 1 : -1) * railWidth * 0.9;
+    const delta = (dir === "next" ? 1 : -1) * Math.max(railWidth * 0.9, 240);
     el.scrollBy({ left: delta, behavior: "smooth" });
   };
 
@@ -60,17 +47,29 @@ export default function TestimonialsRail({ testimonials }: Props) {
         </button>
       </div>
 
-      {/* Rail */}
+      {/* Rail (scrolls on mobile, static stack on lg+) */}
       <div
         ref={railRef}
         role="region"
         aria-label="Client testimonials"
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 lg:grid lg:grid-cols-1 lg:gap-6 lg:overflow-visible"
+        className="
+          -mx-2 px-2           /* guard rails so the first/last card aren't cut off */
+          flex snap-x snap-mandatory gap-3
+          max-w-full overflow-x-auto overscroll-x-contain
+          pb-2
+          no-scrollbar         /* optional: hide OS scrollbars (see CSS below) */
+          lg:mx-0 lg:px-0
+          lg:grid lg:grid-cols-1 lg:gap-6 lg:overflow-visible lg:snap-none
+        "
       >
         {testimonials.map((t) => (
           <figure
             key={`${t.name}-${t.role}`}
-            className="min-w-[85%] snap-start rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur sm:min-w-[70%] md:min-w-[55%] lg:min-w-0"
+            className="
+              min-w-[85%] sm:min-w-[70%] md:min-w-[55%]   /* readable cards on phones */
+              snap-start rounded-2xl border border-white/10 bg-white/[0.05] p-6 backdrop-blur
+              lg:min-w-0                                   /* ensure no overflow on lg+ */
+            "
           >
             {/* Decorative quote & rating */}
             <div className="flex items-center justify-between">
@@ -81,7 +80,9 @@ export default function TestimonialsRail({ testimonials }: Props) {
             </div>
 
             <blockquote className="mt-3 text-slate-200">“{t.quote}”</blockquote>
-            <figcaption className="mt-4 text-sm text-slate-400">— {t.name}, {t.role}</figcaption>
+            <figcaption className="mt-4 text-sm text-slate-400">
+              — {t.name}, {t.role}
+            </figcaption>
           </figure>
         ))}
       </div>

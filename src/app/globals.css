@@ -2,29 +2,163 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Smooth scroll, but respect accessibility preferences */
-html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
+/* ==========================================================================
+   Base tokens / color scheme / rendering
+   ========================================================================== */
+:root {
+  /* dark palette tokens you can reuse in CSS or JS */
+  --bg: 10 12 16;      /* slate-950-ish */
+  --fg: 242 243 247;   /* near-white */
+  /* helps prevent layout shift from appearing/disappearing scrollbars */
+  scrollbar-gutter: stable both-edges;
 }
 
-/* Optional dark tokens */
-:root { --bg: 10 12 16; --fg: 242 243 247; }
-html { color-scheme: dark; }
-body { background: rgb(var(--bg)); color: rgb(var(--fg)); }
+html {
+  color-scheme: dark;
+}
 
-/* If you use a sticky header, keep anchors from hiding under it */
-[id] { scroll-margin-top: 5rem; } /* adjust if your header is taller */
+body {
+  background: rgb(var(--bg));
+  color: rgb(var(--fg));
+  /* mirrors Tailwind's antialiased but applies everywhere */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* just in case the Tailwind class isn't on <body> */
+  min-height: 100dvh;
+}
 
+/* ==========================================================================
+   Layout hardening (no sideways scroll, predictable sizing)
+   ========================================================================== */
+html, body { width: 100%; overflow-x: hidden; }
+*, *::before, *::after { box-sizing: border-box; }
 
-/* Simple marquee for the logo strip */
+/* media elements scale fluidly */
+img, svg, video, canvas { max-width: 100%; height: auto; display: block; }
+
+/* avoid accidental wide code blocks */
+pre, code, .prose pre { overflow-x: auto; }
+
+/* keep in-page anchors from tucking under sticky header */
+[id] { scroll-margin-top: 5rem; } /* adjust if header is taller */
+
+/* ==========================================================================
+   Smooth scroll – future-proof with Next.js
+   Next shows a warning unless you gate smooth scroll by a data attribute.
+   Set data-scroll-behavior="smooth" on <html> in app/layout.tsx
+   ========================================================================== */
+html[data-scroll-behavior="smooth"] { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-scroll-behavior="smooth"] { scroll-behavior: auto; }
+}
+
+/* ==========================================================================
+   Accessible motion defaults
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  /* pause any long-running animations/transitions by default */
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Focus styles that work with keyboard nav (and don't scream)
+   ========================================================================== */
+:focus-visible {
+  outline: 2px solid rgb(34 211 238 / 0.5); /* cyan-400/50 */
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ==========================================================================
+   Utilities layer – custom classes that behave like Tailwind utilities
+   ========================================================================== */
+@layer utilities {
+  /* --- Shimmer text (moved out of styled-jsx so Server Components are safe) --- */
+  .shimmer{
+    background: linear-gradient(
+      90deg,
+      rgba(255,255,255,.7) 0%,
+      #00e0ff 35%,
+      #ffffff 50%,
+      #ff3ea5 65%,
+      rgba(255,255,255,.7) 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shine 2.5s linear infinite;
+  }
+
+  /* --- Marquee helpers (track is clipped; never causes horizontal scroll) --- */
+  .marquee-outer { overflow: hidden; width: 100%; }
+  .marquee {
+    animation: marquee-x 18s linear infinite;
+    will-change: transform;
+    white-space: nowrap;
+  }
+  /* fade edges so items don't pop in/out; includes WebKit prefix */
+  .mask-edges {
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
+
+  /* --- Below-the-fold perf helper (skip initial paint work) --- */
+  .cv-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 800px; /* reserve space to avoid layout shift */
+  }
+
+  /* --- Hard clamp for decorative absolute backgrounds (no overflow risk) --- */
+  .abs-clip {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+}
+
+/* pause animations for motion-sensitive users */
+@media (prefers-reduced-motion: reduce) {
+  .shimmer { animation: none !important; }
+  .marquee { animation: none !important; }
+}
+
+/* ==========================================================================
+   Keyframes
+   ========================================================================== */
+@keyframes shine {
+  0%   { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
 @keyframes marquee-x {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
 }
-.marquee {
-  animation: marquee-x 18s linear infinite;
+
+/* ==========================================================================
+   Optional: nicer scrollbars (supported browsers only)
+   Feel free to remove if you don't want custom scrollbars.
+   ========================================================================== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(71 85 105 / 0.6) transparent; /* slate-600/60 */
 }
-.marquee:hover {
-  animation-play-state: paused;
+*::-webkit-scrollbar { height: 10px; width: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(148,163,184,0.35); /* slate-400/35 */
+  border-radius: 8px;
 }
+*::-webkit-scrollbar-thumb:hover { background: rgba(148,163,184,0.55); }
+
+/* ==========================================================================
+   End
+   ========================================================================== */
