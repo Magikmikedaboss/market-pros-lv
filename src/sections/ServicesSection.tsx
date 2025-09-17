@@ -249,41 +249,29 @@ export default function ServicesSection() {
         </div>
       </div>
 
-      {/* Tech ribbon (marquee-ish, pure CSS) */}
-      <div className="mx-auto mt-10 max-w-7xl overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 py-3 backdrop-blur">
-        <div className="flex animate-[scroll_18s_linear_infinite] whitespace-nowrap text-xs text-slate-300 [--gap:2rem]">
-          {[
-            "Next.js App Router",
-            "React Server Components",
-            "ISR & Edge",
-            "TypeScript",
-            "Tailwind CSS",
-            "Vercel",
-            "Analytics & Pixels",
-            "A/B Testing",
-            "Core Web Vitals",
-            "Accessibility",
-          ]
-            .concat([
-              "Next.js App Router",
-              "React Server Components",
-              "ISR & Edge",
-              "TypeScript",
-              "Tailwind CSS",
-              "Vercel",
-              "Analytics & Pixels",
-              "A/B Testing",
-              "Core Web Vitals",
-              "Accessibility",
-            ])
-            .map((t, i) => (
-              <span key={i} className="mx-[var(--gap)] inline-flex items-center gap-2">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-cyan-400/80" />
-                {t}
-              </span>
-            ))}
-        </div>
-      </div>
+     {/* Tech ribbon — static */}
+<div className="mx-auto mt-10 max-w-7xl overflow-hidden rounded-2xl border border-white/10 bg-slate-900/40 py-3 backdrop-blur">
+  <div className="flex flex-wrap items-center gap-8 px-4 text-xs text-slate-300 sm:whitespace-normal overflow-x-auto sm:overflow-visible">
+    {[
+      "Next.js App Router",
+      "React Server Components",
+      "ISR & Edge",
+      "TypeScript",
+      "Tailwind CSS",
+      "Vercel",
+      "Analytics & Pixels",
+      "A/B Testing",
+      "Core Web Vitals",
+      "Accessibility",
+    ].map((t, i) => (
+      <span key={i} className="inline-flex items-center gap-2 shrink-0">
+        <span className="inline-block h-1.5 w-1.5 rounded-full bg-cyan-400/80" />
+        {t}
+      </span>
+    ))}
+  </div>
+</div>
+
 
       {/* Keyframes (scoped via arbitrary Tailwind) */}
       <style jsx>{`

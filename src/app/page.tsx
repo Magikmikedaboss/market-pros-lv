@@ -8,13 +8,14 @@ import ContactSection from "@/sections/ContactSection";
 
 export default function Page() {
   return (
-    <main>
+    <main className="w-full overflow-x-hidden">
       <Hero />
       <AboutSection />
       <ServicesSection />
       <SeoServicesSection />
       <SocialProofSection />
-      <PricingTeaser limit={4} href="/pricing" hashByTier />  {/* centered + 4 tiers + deep links */}
+      <PricingTeaser limit={4} href="/pricing" hashByTier />
+      {/* centered + 4 tiers + deep links */}
       <ContactSection />
     </main>
   );

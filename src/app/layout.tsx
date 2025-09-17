@@ -1,5 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,12 +9,22 @@ export const metadata: Metadata = {
   description: "Fast Next.js websites, Local SEO that ranks, and conversion-focused funnels.",
 };
 
+// ✅ Ensures proper mobile scaling
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover", // helps with iPhone safe areas
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth overflow-x-hidden">
       <head>
-        {/* GA4 (optional) */}
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX" strategy="afterInteractive" />
+        {/* GA4 */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"
+          strategy="afterInteractive"
+        />
         <Script id="ga4" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
@@ -24,7 +34,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           `}
         </Script>
       </head>
-      <body className="min-h-screen bg-slate-950 text-slate-100 antialiased">
+
+      {/* ✅ dvh works better than 100vh on iOS; overflow hidden prevents tiny overflow causing “narrow look” */}
+      <body className="min-h-dvh bg-slate-950 text-slate-100 antialiased overflow-x-hidden">
         <Header />
         {children}
         <Footer />
