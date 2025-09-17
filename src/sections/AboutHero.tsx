@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
-// ✅ static import from src/assets gives width/height + blur placeholder
 import heroImg from "@/assets/hero/futuristic-web-design-developer-office.jpg";
 
 export default function AboutHero() {
@@ -14,14 +13,13 @@ export default function AboutHero() {
     "@type": "LocalBusiness",
     name: BRAND,
     areaServed: SERVICE_AREA,
-    url: "https://your-domain.com", // TODO: set your live domain
+    url: "https://your-domain.com",
     description:
       "Webcraft Lab builds high-performance Next.js websites with local SEO and measurable marketing for small businesses in Las Vegas.",
   };
 
   return (
     <section id="about" className="relative w-full overflow-hidden scroll-mt-24">
-      {/* Hero container */}
       <div className="relative h-[560px] w-full md:h-[620px] lg:h-[700px]">
         <Image
           src={heroImg}
@@ -29,14 +27,15 @@ export default function AboutHero() {
           fill
           priority
           fetchPriority="high"
-          sizes="100vw"
-          placeholder="blur"             /* ✅ tiny base64 blur, no extra request */
+          // Mobile gets 100vw, tablet/desktop cap at ~1280px render width
+          sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 1280px"
+          placeholder="blur"
+          quality={60}
           className="object-cover"
         />
-        {/* Readability overlay */}
+
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/55 to-transparent" />
 
-        {/* Centered content */}
         <div className="absolute inset-0 grid place-items-center px-4">
           <div className="mx-auto max-w-3xl text-center">
             <p className="mx-auto w-fit rounded-full border border-white/15 bg-black/25 px-3 py-1 text-[11px] uppercase tracking-wider text-slate-300 backdrop-blur">
@@ -55,7 +54,6 @@ export default function AboutHero() {
               Clean structure, strong fundamentals, and measurable funnels.
             </p>
 
-            {/* CTAs (tracked by your global click tracker if present) */}
             <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
               <div className="group relative">
                 <div className="pointer-events-none absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-emerald-500/30 via-cyan-400/25 to-amber-300/20 blur opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -84,7 +82,6 @@ export default function AboutHero() {
         </div>
       </div>
 
-      {/* SEO JSON-LD */}
       <Script id="about-org-jsonld" type="application/ld+json" strategy="afterInteractive">
         {JSON.stringify(orgJsonLd)}
       </Script>
